@@ -1,0 +1,14 @@
+cd <CURRENT DIRECTORY>
+source activate py36 //anaconda python3.6.0 activate
+
+
+python alibaba.py
+python google.py
+python instascrape.py
+
+python logos.py
+
+source venv/bin/activate
+python instabot.py
+deactivate
+source deactivate
