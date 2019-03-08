@@ -1,14 +1,10 @@
-cd <CURRENT DIRECTORY>
-source activate py36 //anaconda python3.6.0 activate
-
+cd /Users/EUGENE/Documents/suprememe
+source activate py36
 
 python alibaba.py
-python google.py
+python tshirt.py
 python instascrape.py
 
 python logos.py
 
-source venv/bin/activate
-python instabot.py
-deactivate
-source deactivate
+venv/bin/python instabot.py 

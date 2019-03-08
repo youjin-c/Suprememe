@@ -1,6 +1,9 @@
 *.JPG
-venv/
 __pycache__
 .vscode
 *.pyc
 *.log
+cred
+documentation/
+venv/
+*.h5

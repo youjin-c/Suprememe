@@ -5,9 +5,10 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.chrome.options import Options
 import downloadimg
 import subprocess
+from PIL import Image
 
 chrome_options = Options()
-chrome_options.add_argument("--headless")
+# chrome_options.add_argument("--headless")
 driver = webdriver.Chrome(chrome_options=chrome_options)
 
 #driver = webdriver.Chrome()
@@ -24,9 +25,12 @@ url = img.get_attribute('src')
 savedname = 'tshirts/'+str(ranint)+'.jpg'
 
 try:
-    filename = downloadimg.download_file(url,savedname)
+    downloadimg.download_file(url,savedname)
     # subprocess.call(['convert',savedname,'-resize','293x293',savedname]) #RESIZING
 
 except Exception as e:
     print(e)
+
+image = Image.open(savedname)
+image.show()
 driver.quit()

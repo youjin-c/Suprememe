@@ -10,10 +10,11 @@ import os
 import downloadimg
 import random
 from selenium.webdriver.firefox.options import Options
+from PIL import Image
 
 
 options = Options()
-options.set_headless(headless=True)
+# options.set_headless(headless=True)
 driver = webdriver.Firefox(firefox_options=options)
 # driver = webdriver.Firefox()
 #StaleElementError -> firefox
@@ -30,16 +31,19 @@ def insta_gif(tags):
 	url = random.choice(images).get_attribute('src')
 	savedname = 'insta/'+str(time.time())+'.jpg'
 	try:
-		filename = downloadimg.download_file(url,savedname)
+		downloadimg.download_file(url,savedname)
 		# subprocess.call(['convert',savedname,'-resize','293x293',savedname]) #RESIZING
 	except Exception as e:
 		print(e)
 	driver.quit()
+	image = Image.open(savedname)
+	image.show()
 
 
 # tag = sys.argv[1] 
 # tags = ['glitch','90s','nostalgia']
 # insta_gif(tags[random.randint(0,2)]) #90s,nostalgia
 insta_gif('glitch')
+
 
 

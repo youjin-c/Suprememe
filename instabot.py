@@ -3,8 +3,9 @@ from glob import glob
 import random
 import os
 import time
+import webbrowser
 
-InstagramAPI = InstagramAPI(<INSTAGRAM ID>, <INSTAGRAM PW>)
+InstagramAPI = InstagramAPI(<Instadram ID>, <Instadram PW>)
 time.sleep(2)
 InstagramAPI.login()  # login
 
@@ -15,10 +16,12 @@ for file in glob('upload/*.jpg'):
 	files.append(file)
 
 photo_path = random.choice(files)
-caption = "#supreme #supremenyc #automation #ImageAI"
+caption = "#supreme #supremenyc #automation #objectdetection"
 InstagramAPI.uploadPhoto(photo_path, caption=caption)
 
+
 time.sleep(1)
+webbrowser.open('https://www.instagram.com/suprememebot/')
 os.remove(photo_path)
 
 

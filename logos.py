@@ -15,41 +15,56 @@ def boxlogo():
 	files = []
 	for file in glob('img/*.jpg'):
 		files.append(file)
-	industrialObject=random.choice(files)
+	# industrialObject=random.choice(files)
+	industrialObject = max(files, key=os.path.getctime)
+	# show_img = Image.open(industrialObject)
+	# show_img.show()
 
 	tshrits = []
 	for file in glob('tshirts/*.jpg'):
 		tshrits.append(file)
-	Tshirt=random.choice(tshrits)
-	
+	# Tshirt=random.choice(tshrits)
+	Tshirt = max(tshrits, key=os.path.getctime)
+	# show_img = Image.open(Tshirt)
+	# show_img.show()
 
 	prints = []
 	for printimg in glob('insta/*.jpg'):
 		prints.append(printimg)
-	selPrint = random.choice(prints)
+	# selPrint = random.choice(prints)
+	selPrint = max(prints, key=os.path.getctime)
 	# print(selPrint)
+	# show_img = Image.open(selPrint)
+	# show_img.show()
 	
 	execution_path = os.getcwd()
 	detector = ObjectDetection()
 	detector.setModelTypeAsRetinaNet()
 	detector.setModelPath( os.path.join(execution_path , "resnet50_coco_best_v2.0.1.h5"))
 	detector.loadModel()
-	# detections = detector.detectObjectsFromImage(input_image=os.path.join(execution_path , industrialObject), output_image_path=os.path.join(execution_path , "imagenew"+str(time.time())+".jpg"))
-	detections = detector.detectObjectsFromImage(input_image=os.path.join(execution_path , industrialObject))
-	
+	detections = detector.detectObjectsFromImage(input_image=os.path.join(execution_path , industrialObject), output_image_path=os.path.join(execution_path , "imagenew.jpg"))
+	#detections = detector.detectObjectsFromImage(input_image=os.path.join(execution_path , industrialObject))
+	show_img = Image.open("imagenew.jpg")
+	show_img.show()
+
 	if int(len(detections)):
 		baby = Image.open(industrialObject)
 		chosenObject=random.choice(detections)
 		isTshirt = False
 		isBoxLogo = True
 		
+		
 	else:
-		detections = detector.detectObjectsFromImage(input_image=os.path.join(execution_path , Tshirt))
+		# detections = detector.detectObjectsFromImage(input_image=os.path.join(execution_path , Tshirt))
+		detections = detector.detectObjectsFromImage(input_image=os.path.join(execution_path , Tshirt), output_image_path=os.path.join(execution_path , "imagenew.jpg"))
+		show_img = Image.open("imagenew.jpg")
+		show_img.show()
 		chosenObject=random.choice(detections)
 		baby = Image.open(Tshirt)
 		isTshirt = True
 		if(random.randint(0,1)):
 			isBoxLogo = True
+		
 
 	# print("chosen",chosenObject["name"]," : ", chosenObject["box_points"])
 	objectX,objectY,objectW,objectH=(chosenObject["box_points"][0],chosenObject["box_points"][1],chosenObject["box_points"][2]-chosenObject["box_points"][0],chosenObject["box_points"][3]-chosenObject["box_points"][1])
@@ -59,6 +74,7 @@ def boxlogo():
 		degree = random.randint(-45,45) #rotation degree
 		baby=baby.rotate(degree, expand=1)
 		after = baby.size
+		baby.show()
 		# print('size difference : ', after[0]-before[0]," , " ,after[1]-before[1])
 		x = objectX+random.uniform(objectW*0.05,objectW*0.15)+after[0]-before[0]
 		y = objectY+random.uniform(objectH*0.15,objectH*0.25)+after[1]-before[1]
@@ -93,10 +109,12 @@ def boxlogo():
 			Tshirt,
 			temp])
 		baby = Image.open(temp)
-		os.remove(temp)
+		baby.show()
+		# os.remove(temp)
 
 	if not isTshirt:
 		baby=baby.rotate(360-degree, expand=1)
+		baby.show()
 	if random.randint(0,1):
 		# map the inputs to the function blocks
 		options = {0 : GaussianBlur,
@@ -109,11 +127,13 @@ def boxlogo():
 		}
 		optionSel= random.randint(0,6)
 		baby = options[optionSel](baby)
+		baby.show()
 		return baby.save('upload/'+now.strftime("%m%d%Y_%H%M%S")+chosenObject["name"]+str(optionSel)+'.jpg')
 
 	# os.remove(industrialObject)
 	# os.remove(Tshirt)
 	# os.remove(selPrint)
+	baby.show()
 	return baby.save('upload/'+now.strftime("%m%d%Y_%H%M%S")+chosenObject["name"]+'.jpg')
 
 # define the function blocks
